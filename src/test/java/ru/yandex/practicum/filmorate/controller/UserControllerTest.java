@@ -7,8 +7,7 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
     Controller<User> controller;
@@ -23,7 +22,7 @@ class UserControllerTest {
 
     @Test
     void shouldValidateCorrectUser() {
-        assertTrue(controller.validate(user));
+        assertDoesNotThrow(() -> controller.validate(user));
     }
 
     @Test
@@ -41,7 +40,7 @@ class UserControllerTest {
     @Test
     void emailShouldNotBeEmpty() {
         user.setEmail("s@ ");
-        assertTrue(controller.validate(user));
+        assertDoesNotThrow(() -> controller.validate(user));
 
         user.setEmail("");
         assertThrows(ValidationException.class, () -> controller.validate(user));
@@ -52,7 +51,7 @@ class UserControllerTest {
 
     @Test
     void birthdayShouldBeInPast() {
-        assertTrue(controller.validate(user));
+        assertDoesNotThrow(() -> controller.validate(user));
 
         user.setBirthday(LocalDate.of(2024, 1, 1));
         assertThrows(ValidationException.class, () -> controller.validate(user));

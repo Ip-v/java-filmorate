@@ -36,5 +36,5 @@ public interface Controller<T> {
      *
      * @param t Объект
      */
-    boolean validate(T t);
+    void validate(T t);
 }

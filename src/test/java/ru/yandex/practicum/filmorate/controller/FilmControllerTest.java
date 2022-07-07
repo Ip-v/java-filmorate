@@ -7,8 +7,7 @@ import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FilmControllerTest {
     Controller<Film> controller;
@@ -23,13 +22,13 @@ class FilmControllerTest {
     @Test
     void shouldValidateCorectFilm() {
         film = new Film(1, "Name", "Description", LocalDate.now(), 120);
-        assertTrue(controller.validate(film));
+        assertDoesNotThrow(() -> controller.validate(film));
     }
 
     @Test
     void shouldValidateFilmWithEdgeReleaseDate() {
         film.setReleaseDate(LocalDate.of(1895, 12, 28));
-        assertTrue(controller.validate(film), "Ошибка проверки граничного условия.");
+        assertDoesNotThrow(() -> controller.validate(film), "Ошибка проверки граничного условия.");
     }
 
     @Test
@@ -41,7 +40,8 @@ class FilmControllerTest {
     @Test
     void durationShouldBePositive() {
         film.setDuration(0);
-        assertTrue(controller.validate(film));
+        assertDoesNotThrow(() -> controller.validate(film));
+
         film.setDuration(-2);
         assertThrows(ValidationException.class, () -> controller.validate(film));
     }
@@ -49,7 +49,7 @@ class FilmControllerTest {
     @Test
     void descriptionShouldHaveCorrectLength() {
         film.setDescription("sa");
-        assertTrue(controller.validate(film));
+        assertDoesNotThrow(() -> controller.validate(film));
 
 
         String s = "i".repeat(250);
@@ -60,7 +60,7 @@ class FilmControllerTest {
     @Test
     void nameShouldNotBeEmptyOrBlank() {
         film.setName("sa");
-        assertTrue(controller.validate(film));
+        assertDoesNotThrow(() -> controller.validate(film));
 
         film.setName("");
         assertThrows(ValidationException.class, () -> controller.validate(film));

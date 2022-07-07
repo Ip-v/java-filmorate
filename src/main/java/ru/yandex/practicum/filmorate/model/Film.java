@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -13,6 +14,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class Film {
     private Integer id;

@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.controller.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -9,14 +10,16 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Контроллер для управления пользователями
  */
+@Slf4j
 @RestController
 @RequestMapping("users")
 public class UserController implements Controller<User> {
-    private final HashMap<Integer, User> storage = new HashMap<>();
+    private final Map<Integer, User> storage = new HashMap<>();
     private int lastId = 1;
 
     @Override
@@ -27,8 +30,10 @@ public class UserController implements Controller<User> {
         lastId++;
         if (user.getName().isBlank()) {
             user.setName(user.getLogin());
+            log.trace("Имя нового пользователя пусто. Пользователь " + user.getId());
         }
         storage.put(user.getId(), user);
+        log.info("Добавлен фильм: " + user);
         return user;
     }
 
@@ -38,28 +43,37 @@ public class UserController implements Controller<User> {
         if (storage.containsKey(user.getId())) {
             validate(user);
             storage.put(user.getId(), user);
+            log.info("Обновлена запись пользователя id: " + user.getId());
             return user;
         }
+        log.error("Ошибка обновления фильма с id: " + user.getId());
         throw new RuntimeException("Пользователя нет в базе. Невозможно обновить.");
     }
 
     @Override
     @GetMapping()
     public List<User> getAll() {
+        log.info("Получен запрос списка всех пользователей в базе.");
         return new ArrayList<>(storage.values());
     }
 
 
-    public boolean validate(User user) {
+    public void validate(User user) {
         if (user.getLogin().isBlank() || user.getLogin().contains(" ")) {
-            throw new ValidationException();
+            String msg = "Ошибка валидации пользователя. Неверная формат логина. " + user.getId();
+            log.warn(msg);
+            throw new ValidationException(msg);
         }
         if (user.getEmail().isBlank() || (!user.getEmail().contains("@"))) {
-            throw new ValidationException();
+            String msg = "Ошибка валидации пользователя. Неверная формат email. " + user.getId();
+            log.warn(msg);
+            throw new ValidationException(msg);
         }
         if (user.getBirthday().isAfter(LocalDate.now())) {
-            throw new ValidationException();
+            String msg = "Ошибка валидации пользователя. Неверная дата рождения. " + user.getId();
+            log.warn(msg);
+            throw new ValidationException(msg);
         }
-        return true;
+        log.trace("Успешная валидация пользователя " + user);
     }
 }

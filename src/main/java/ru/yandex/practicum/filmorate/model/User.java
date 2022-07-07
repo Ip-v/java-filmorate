@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.lang.NonNull;
 
 import javax.validation.constraints.Email;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 public class User {
     private Integer id;
