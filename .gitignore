@@ -1,3 +1,4 @@
+HELP.md
 *.class
 *.log
 *.jar
@@ -41,3 +42,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/postman/
