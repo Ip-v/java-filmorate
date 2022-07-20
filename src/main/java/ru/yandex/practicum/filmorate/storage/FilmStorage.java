@@ -1,39 +1,32 @@
-package ru.yandex.practicum.filmorate.controller;
+package ru.yandex.practicum.filmorate.storage;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import ru.yandex.practicum.filmorate.model.Film;
 
 import java.util.List;
 
 /**
- * Интерфейс контроллера
- *
- * @param <T>
+ * Содержит методы добавления, удаления и модификации объектов фильмы.
  */
-public interface Controller<T> {
+public interface FilmStorage {
     /**
      * Добавить объект в коллекцию
-     *
-     * @param t Новый объект
      */
-
-    T add(@RequestBody T t);
+    Film add(@RequestBody Film film);
 
     /**
      * Обновить объект в коллекции.
-     *
-     * @param t Новая версия
      */
-    T update(T t);
+    Film update(Film film);
 
     /**
      * Метод возвращает все элементы коллекции.
      */
-    List<T> getAll();
+    List<Film> getAll();
 
     /**
      * Валидация объекта
      *
-     * @param t Объект
      */
-    void validate(T t);
+    void validate(Film film);
 }
