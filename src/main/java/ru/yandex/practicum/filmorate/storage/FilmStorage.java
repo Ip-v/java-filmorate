@@ -12,7 +12,7 @@ public interface FilmStorage {
     /**
      * Добавить объект в коллекцию
      */
-    Film add(@RequestBody Film film);
+    Film save(@RequestBody Film film);
 
     /**
      * Обновить объект в коллекции.
@@ -25,8 +25,16 @@ public interface FilmStorage {
     List<Film> getAll();
 
     /**
-     * Валидация объекта
+     * Получения фильма из базы
      *
+     * @param id Ид фильма
+     * @return фильм
      */
-    void validate(Film film);
+    Film get(int id);
+
+    /**
+     * Удаление фильма из базы по ID.
+     */
+    void delete(int id);
+
 }

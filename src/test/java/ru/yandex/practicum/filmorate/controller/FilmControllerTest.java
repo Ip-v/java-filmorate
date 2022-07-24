@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.controller.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
@@ -16,12 +16,12 @@ class FilmControllerTest {
     @BeforeEach
     void init() {
         controller = new FilmController();
-        film = new Film(1, "Name", "Description", LocalDate.now(), 120);
+        film = new Film(null, 1, "Name", "Description", LocalDate.now(), 120);
     }
 
     @Test
     void shouldValidateCorectFilm() {
-        film = new Film(1, "Name", "Description", LocalDate.now(), 120);
+        film = new Film(null, 1, "Name", "Description", LocalDate.now(), 120);
         assertDoesNotThrow(() -> controller.validate(film));
     }
 

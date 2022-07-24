@@ -16,7 +16,7 @@ public interface Controller<T> {
      * @param t Новый объект
      */
 
-    T add(@RequestBody T t);
+    T save(@RequestBody T t);
 
     /**
      * Обновить объект в коллекции.

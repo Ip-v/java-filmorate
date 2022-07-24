@@ -8,25 +8,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-//TODO Создайте классы InMemoryFilmStorage и InMemoryUserStorage, имплементирующие новые интерфейсы, и перенесите туда всю логику хранения, обновления и поиска объектов.
+/**
+ * Хранилище данных о пользователях в памяти.
+ */
 @Component
 public class InMemoryUserStorage implements UserStorage {
     private final Map<Integer, User> storage = new HashMap<>();
-    int id = 0;
+    int userId = 0;
 
     @Override
     public User save(User user) {
-        user.setId(++id);
+        user.setId(++userId);
         storage.put(user.getId(), user);
         return user;
     }
 
     @Override
     public User update(User user) {
-        if(!storage.containsKey(user.getId())) {
-            throw new UserDoesNotExistsException("Пользователя не существует.");
-        }
         storage.put(user.getId(), user);
         return user;
     }
@@ -43,9 +41,6 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public void delete(int id) {
-        if(!storage.containsKey(id)) {
-            throw new UserDoesNotExistsException("Пользователя не существует.");
-        }
         storage.remove(id);
     }
 }

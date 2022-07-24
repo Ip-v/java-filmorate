@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
@@ -21,8 +20,8 @@ public interface UserStorage {
 
     /**
      * Получение пользователя из хранилища.
+     *
      * @param id ИД пользователя.
-     * @return
      */
     User get(int id);
 
@@ -32,8 +31,7 @@ public interface UserStorage {
     List<User> getAll();
 
     /**
-     * Удаление пользовтеля из Базы
-     * @param id
+     * Удаление пользователя из Базы
      */
     void delete(int id);
 
