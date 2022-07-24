@@ -16,7 +16,7 @@ import java.util.Set;
 @Service
 public class UserService {
     @Autowired
-    protected UserStorage userStorage;
+    private UserStorage userStorage;
 
     /**
      * Получение пользователя по ИД

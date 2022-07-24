@@ -16,10 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService {
     @Autowired
-    protected FilmStorage filmStorage;
+    private FilmStorage filmStorage;
     @Autowired
-    protected UserService userService;
+    private UserService userService;
 
+    /**
+     * Добавление фильма
+     */
     public Film save(Film film) {
         return filmStorage.save(film);
     }
