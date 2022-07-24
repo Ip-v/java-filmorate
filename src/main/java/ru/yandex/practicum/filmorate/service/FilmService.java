@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Service
 public class FilmService {
     @Autowired
-    FilmStorage filmStorage;
+    protected FilmStorage filmStorage;
     @Autowired
-    UserService userService;
+    protected UserService userService;
 
     public Film save(Film film) {
         return filmStorage.save(film);

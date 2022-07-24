@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController implements Controller<User> {
     @Autowired
-    UserService userService;
+    protected UserService userService;
 
     /**
      * Получение пользователя по ид

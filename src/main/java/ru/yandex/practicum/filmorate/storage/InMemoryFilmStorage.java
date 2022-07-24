@@ -14,7 +14,7 @@ import java.util.Map;
 @Component
 public class InMemoryFilmStorage implements FilmStorage {
     private final Map<Integer, Film> storage = new HashMap<>();
-    int filmId = 0;
+    private int filmId = 0;
 
     @Override
     public Film save(Film film) {

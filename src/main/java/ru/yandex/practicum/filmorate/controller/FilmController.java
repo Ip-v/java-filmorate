@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/films")
 public class FilmController implements Controller<Film> {
     @Autowired
-    FilmService filmService;
+    protected FilmService filmService;
 
     /**
      * Получение фильма
