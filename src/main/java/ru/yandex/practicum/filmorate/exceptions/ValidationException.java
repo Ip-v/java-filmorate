@@ -1,4 +1,4 @@
-package ru.yandex.practicum.filmorate.controller.exceptions;
+package ru.yandex.practicum.filmorate.exceptions;
 
 /**
  * Генерирует исключения при неверном формате данных

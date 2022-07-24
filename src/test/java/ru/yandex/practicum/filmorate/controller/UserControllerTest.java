@@ -2,7 +2,7 @@ package ru.yandex.practicum.filmorate.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.yandex.practicum.filmorate.controller.exceptions.ValidationException;
+import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ class UserControllerTest {
     @BeforeEach
     void init() {
         controller = new UserController();
-        user = new User(1, "a@", "login", "name",
+        user = new User(null, 1, "a@", "login", "name",
                 LocalDate.of(1895, 12, 28));
     }
 
