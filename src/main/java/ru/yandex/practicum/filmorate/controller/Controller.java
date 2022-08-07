@@ -9,7 +9,6 @@ import java.util.List;
  *
  * @param <T>
  */
-
 public interface Controller<T> {
     /**
      * Добавить объект в коллекцию
@@ -17,7 +16,7 @@ public interface Controller<T> {
      * @param t Новый объект
      */
 
-    T add(@RequestBody T t);
+    T save(@RequestBody T t);
 
     /**
      * Обновить объект в коллекции.
