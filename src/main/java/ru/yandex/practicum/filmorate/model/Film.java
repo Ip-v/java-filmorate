@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Film {
     @JsonIgnore
-    public Set<Integer> userLikes = new HashSet<>();
+    private Set<Integer> userLikes = new HashSet<>();
     private Integer id;
     @NotBlank(message = "Название не должно быть пустым.")
     private String name;
