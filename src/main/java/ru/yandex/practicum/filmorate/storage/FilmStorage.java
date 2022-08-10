@@ -37,4 +37,10 @@ public interface FilmStorage {
      */
     void delete(int id);
 
+    /**
+     * Получение списка топ попупляных фильмов
+     * @param number размер списка
+     */
+    List<Film> getPopular(int number);
+
 }
