@@ -15,6 +15,7 @@ import java.util.Set;
  */
 @Service
 public class UserService {
+
     @Autowired
     private UserStorage userStorage;
 
@@ -45,6 +46,7 @@ public class UserService {
     public void addFriend(User user, User friend) {
         user.getFriendsIds().add(friend.getId());
         friend.getFriendsIds().add(user.getId());
+        userStorage.update(user);
     }
 
     /**
@@ -53,6 +55,7 @@ public class UserService {
     public void removeFriend(User user, User friend) {
         user.getFriendsIds().remove(friend.getId());
         friend.getFriendsIds().remove(user.getId());
+        userStorage.update(user);
     }
 
     /**

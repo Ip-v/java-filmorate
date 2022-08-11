@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import java.util.Objects;
 
-//Жанры фильмов
+/**
+ * Жанры фильмов
+ */
 @Getter
 @AllArgsConstructor
 @RequiredArgsConstructor

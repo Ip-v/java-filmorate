@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -34,7 +35,7 @@ public class FilmDbStorage implements FilmStorage {
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("FILM_NAME", film.getName())
                 .addValue("FILM_DESCRIPTION", film.getDescription())
-                .addValue("FILM_RATING_ID", film.getMpa().getId())
+                .addValue("RATING_ID", film.getMpa().getId())
                 .addValue("FILM_RELEASE_DATE", film.getReleaseDate())
                 .addValue("FILM_DURATION", film.getDuration());
 
@@ -70,8 +71,8 @@ public class FilmDbStorage implements FilmStorage {
         jdbcTemplate.update(deleteSql, film.getId());
 
         String insertSql = "insert into likes (film_id, user_id) values(?,?)";
-        if (film.getUserLikes() != null) {
-            film.getUserLikes().forEach(like -> jdbcTemplate.update(insertSql, film.getId(), like));
+        if (film.getLikes() != null) {
+            film.getLikes().forEach(like -> jdbcTemplate.update(insertSql, film.getId(), like));
         }
     }
 
@@ -80,8 +81,8 @@ public class FilmDbStorage implements FilmStorage {
         jdbcTemplate.update(deleteSql, film.getId());
 
         String insertSql = "insert into FILM_GENRES (FILM_ID, GENRE_ID) values(?,?)";
-        if (film.getGenreList() != null) {
-            film.getGenreList()
+        if (film.getGenres() != null) {
+            film.getGenres()
                     .stream()
                     .map(Genre::getId)
                     .forEach(id -> jdbcTemplate.update(insertSql, film.getId(), id));
@@ -90,16 +91,20 @@ public class FilmDbStorage implements FilmStorage {
 
     @Override
     public List<Film> getAll() {
-        String sql = "select * from FILMS F left join MPA R on R.RATING_ID=F.RATING_ID";
+        String sql = "select * from FILMS F left join MPA R on R.RATING_ID = F.RATING_ID";
         return jdbcTemplate.query(sql, this::createFilmFromRow);
     }
 
     @Override
-    public Film get(int id) {
+    public Film get(Integer id) {
         String sql = "select * from films f " +
                 "left join mpa m on m.rating_id=f.rating_id " +
                 "where f.film_id=?";
-        return jdbcTemplate.queryForObject(sql, this::createFilmFromRow, id);
+        try {
+            return jdbcTemplate.queryForObject(sql, this::createFilmFromRow, id);
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 
     private Film createFilmFromRow(ResultSet resultSet, int id) throws SQLException {
@@ -116,8 +121,8 @@ public class FilmDbStorage implements FilmStorage {
                 null,
                 new Mpa(resultSet.getInt("RATING_ID"), resultSet.getString("MPA_NAME"))
         );
-        film.setGenreList(getGenreListByFilmId(film.getId()));
-        film.setUserLikes(getUserLikesByFilmId(film.getId()));
+        film.setGenres(getGenreListByFilmId(film.getId()));
+        film.setLikes(getUserLikesByFilmId(film.getId()));
         return film;
     }
 
@@ -131,7 +136,7 @@ public class FilmDbStorage implements FilmStorage {
                 "left join film_genres fg on fg.GENRE_ID=g.GENRE_ID " +
                 "where film_id=?";
         Set<Genre> genres = new HashSet<>(jdbcTemplate.query(sql,
-                (rs, num) -> new Genre(rs.getInt("genre_id"), rs.getString("genre")), id)
+                (rs, num) -> new Genre(rs.getInt("genre_id"), rs.getString("genre_name")), id)
         );
         return genres.isEmpty() ? null : genres;
     }

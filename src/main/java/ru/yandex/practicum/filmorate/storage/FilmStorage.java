@@ -30,7 +30,7 @@ public interface FilmStorage {
      * @param id Ид фильма
      * @return фильм
      */
-    Film get(int id);
+    Film get(Integer id);
 
     /**
      * Удаление фильма из базы по ID.
@@ -39,6 +39,7 @@ public interface FilmStorage {
 
     /**
      * Получение списка топ попупляных фильмов
+     *
      * @param number размер списка
      */
     List<Film> getPopular(int number);

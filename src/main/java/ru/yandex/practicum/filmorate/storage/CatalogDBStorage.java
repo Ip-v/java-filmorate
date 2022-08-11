@@ -12,7 +12,7 @@ public interface CatalogDBStorage<T> {
     List<T> getAll();
 
     /**
-     * Получить запись по ID
+     * Получить запись по id
      */
-    T get(int id);
+    T get(Integer id);
 }

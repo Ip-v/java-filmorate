@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -74,9 +75,13 @@ public class UserDbStorage implements UserStorage {
     }
 
     @Override
-    public User get(int id) {
+    public User get(Integer id) {
         String sql = "select * from USERS where USER_ID = ?";
-        return jdbcTemplate.queryForObject(sql, this::createUserFromRow, id);
+        try {
+            return jdbcTemplate.queryForObject(sql, this::createUserFromRow, id);
+        } catch (EmptyResultDataAccessException ex) {
+            return null;
+        }
     }
 
     private User createUserFromRow(ResultSet resultSet, int id) throws SQLException {

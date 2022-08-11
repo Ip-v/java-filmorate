@@ -30,7 +30,7 @@ public class InMemoryUserStorage implements UserStorage {
     }
 
     @Override
-    public User get(int id) {
+    public User get(Integer id) {
         return storage.get(id);
     }
 

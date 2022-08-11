@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +8,6 @@ import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,10 +27,8 @@ public class Film {
     private LocalDate releaseDate;
     @Positive
     private Integer duration;
-    @JsonIgnore
-    private Set<Integer> userLikes = new HashSet<>();
-    @JsonIgnore
-    private Set<Genre> genreList;
+    private Set<Integer> likes = new HashSet<>();
+    private Set<Genre> genres;
     @NotNull
     private Mpa mpa;
 }

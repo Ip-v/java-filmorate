@@ -2,17 +2,18 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//Рейтинг Ассоциации кинокомпаний (англ. Motion Picture Association)
+/**
+ * Рейтинг Ассоциации кинокомпаний (англ. Motion Picture Association)
+ */
 @Getter
-@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Mpa {
 
-    private final int id;
-
+    private Integer id;
     @Setter
     private String name;
 }
