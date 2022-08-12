@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS film_genres, likes, friendship, films, film_genres, mpa, USERS, GENRES;
+DROP TABLE IF EXISTS FILM_GENRES, LIKES, FRIENDSHIP, FILMS, FILM_GENRES, MPA, USERS, GENRES;
 
 create table IF NOT EXISTS USERS
 (
@@ -34,8 +34,6 @@ create table IF NOT EXISTS FILMS
             on delete cascade
 );
 
-
-
 create table IF NOT EXISTS GENRES
 (
     GENRE_ID   INTEGER auto_increment,
@@ -50,7 +48,8 @@ create table IF NOT EXISTS FILM_GENRES
     FILM_ID  INTEGER not null,
     GENRE_ID INTEGER not null,
     constraint "film_genres_films_FK"
-        foreign key (FILM_ID) references FILMS,
+        foreign key (FILM_ID) references FILMS
+            on update cascade on delete cascade,
     constraint "film_genres_genres_FK"
         foreign key (GENRE_ID) references GENRES
             on update cascade on delete cascade
@@ -66,6 +65,7 @@ create table IF NOT EXISTS LIKES
             on update cascade on delete cascade,
     constraint LIKES_USERS_FK
         foreign key (USER_ID) references USERS
+            on delete cascade
 );
 
 CREATE TABLE IF NOT EXISTS FRIENDSHIP
@@ -75,9 +75,11 @@ CREATE TABLE IF NOT EXISTS FRIENDSHIP
     CONSTRAINT friendship_pk
         PRIMARY KEY (user_id, friend_id),
     CONSTRAINT users
-        FOREIGN KEY (user_id) REFERENCES users (user_id),
+        FOREIGN KEY (user_id) REFERENCES users (user_id)
+            on delete cascade,
     CONSTRAINT friend
         FOREIGN KEY (friend_id) REFERENCES users (user_id)
+            on delete cascade
 );
 
 

@@ -48,7 +48,7 @@ public class UserDbStorage implements UserStorage {
         if (get(user.getId()) == null) {
             throw new UserDoesNotExistException("Пользователя с id = " + user.getId() + " нет в базе.");
         }
-        String sql = "update USERS set " +
+        String sql = "UPDATE USERS SET " +
                 "USER_EMAIL=?," +
                 "USER_LOGIN=?," +
                 "USER_NAME=?," +
@@ -65,10 +65,10 @@ public class UserDbStorage implements UserStorage {
     }
 
     private void updateFriendsIds(User user) {
-        String deleteSql = "delete from FRIENDSHIP where USER_ID=?";
+        String deleteSql = "DELETE FROM FRIENDSHIP WHERE USER_ID = ?";
         jdbcTemplate.update(deleteSql, user.getId());
 
-        String insertSql = "insert into friendship (USER_ID, FRIEND_ID) values (?,?)";
+        String insertSql = "INSERT INTO FRIENDSHIP (USER_ID, FRIEND_ID) VALUES (?,?)";
         if (user.getFriendsIds() != null) {
             user.getFriendsIds().forEach(id -> jdbcTemplate.update(insertSql, user.getId(), id));
         }
@@ -76,7 +76,7 @@ public class UserDbStorage implements UserStorage {
 
     @Override
     public User get(Integer id) {
-        String sql = "select * from USERS where USER_ID = ?";
+        String sql = "SELECT * FROM USERS WHERE USER_ID = ?";
         try {
             return jdbcTemplate.queryForObject(sql, this::createUserFromRow, id);
         } catch (EmptyResultDataAccessException ex) {
@@ -101,19 +101,19 @@ public class UserDbStorage implements UserStorage {
     }
 
     private Set<Integer> getFriendsIdsByUserId(Integer id) {
-        String sql = "select FRIEND_ID from friendship where USER_ID=?";
+        String sql = "SELECT FRIEND_ID FROM FRIENDSHIP WHERE USER_ID = ?";
         return new HashSet<>(jdbcTemplate.query(sql, (rs, num) -> rs.getInt("friend_id"), id));
     }
 
     @Override
     public List<User> getAll() {
-        String sql = "select * from USERS";
+        String sql = "SELECT * FROM USERS";
         return jdbcTemplate.query(sql, this::createUserFromRow);
     }
 
     @Override
     public void delete(int id) {
-        String sql = "delete from USERS where USER_ID = ?";
+        String sql = "DELETE FROM USERS WHERE USER_ID = ?";
         jdbcTemplate.update(sql, id);
     }
 }

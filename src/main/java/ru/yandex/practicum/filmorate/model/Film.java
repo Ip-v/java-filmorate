@@ -20,15 +20,22 @@ import java.util.Set;
 @NoArgsConstructor
 public class Film {
     private Integer id;
+
     @NotBlank(message = "Название не должно быть пустым.")
     private String name;
+
     @Size(max = 200)
     private String description;
+
     private LocalDate releaseDate;
+
     @Positive
     private Integer duration;
+
     private Set<Integer> likes = new HashSet<>();
+
     private Set<Genre> genres;
+
     @NotNull
     private Mpa mpa;
 }

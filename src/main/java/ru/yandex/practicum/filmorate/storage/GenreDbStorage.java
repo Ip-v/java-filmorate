@@ -34,7 +34,7 @@ public class GenreDbStorage implements CatalogDBStorage<Genre> {
 
     @Override
     public Genre get(Integer id) {
-        String sql = "SELECT * FROM GENRES WHERE GENRE_ID=?";
+        String sql = "SELECT * FROM GENRES WHERE GENRE_ID = ?";
         try {
             return jdbcTemplate.queryForObject(sql, this::createGenreFromRow, id);
         } catch (EmptyResultDataAccessException ex) {
