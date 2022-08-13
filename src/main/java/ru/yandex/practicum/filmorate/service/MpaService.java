@@ -1,7 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.MpaDoesNotExistException;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.storage.CatalogDBStorage;
@@ -11,9 +12,10 @@ import java.util.List;
 /**
  * Сервис MPA
  */
-@Component
+@Service
 @RequiredArgsConstructor
 public class MpaService {
+    @Autowired
     private final CatalogDBStorage<Mpa> storage;
 
     /**

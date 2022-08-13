@@ -1,7 +1,8 @@
 package ru.yandex.practicum.filmorate.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.exceptions.GenreDoesNotExistException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.CatalogDBStorage;
@@ -11,9 +12,10 @@ import java.util.List;
 /**
  * Сервис жанров
  */
-@Component
+@Service
 @RequiredArgsConstructor
 public class GenreService {
+    @Autowired
     private final CatalogDBStorage<Genre> storage;
 
     /**
