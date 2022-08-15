@@ -6,15 +6,14 @@ import ru.yandex.practicum.filmorate.exceptions.FilmDoesNotExistException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Служба фильмов
  */
 @Service
 public class FilmService {
+
     @Autowired
     private FilmStorage filmStorage;
     @Autowired
@@ -59,7 +58,8 @@ public class FilmService {
     public void likeFilm(int id, int userId) {
         userService.get(userId);
         Film film = get(id);
-        film.getUserLikes().add(userId);
+        film.getLikes().add(userId);
+        filmStorage.update(film);
     }
 
     /**
@@ -68,16 +68,14 @@ public class FilmService {
     public void deleteFilmLike(int id, int userId) {
         userService.get(userId);
         Film film = get(id);
-        film.getUserLikes().remove(userId);
+        film.getLikes().remove(userId);
+        filmStorage.update(film);
     }
 
     /**
      * Получить список популярных фильмов
      */
     public List<Film> getPopular(int count) {
-        return filmStorage.getAll().stream()
-                .sorted(Comparator.comparingInt(f -> -1 * f.getUserLikes().size()))
-                .limit(count)
-                .collect(Collectors.toList());
+        return filmStorage.getPopular(count);
     }
 }

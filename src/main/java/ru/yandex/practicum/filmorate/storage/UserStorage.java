@@ -23,7 +23,7 @@ public interface UserStorage {
      *
      * @param id ИД пользователя.
      */
-    User get(int id);
+    User get(Integer id);
 
     /**
      * Метод возвращает все элементы коллекции.

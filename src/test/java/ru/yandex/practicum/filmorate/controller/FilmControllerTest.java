@@ -16,12 +16,12 @@ class FilmControllerTest {
     @BeforeEach
     void init() {
         controller = new FilmController();
-        film = new Film(null, 1, "Name", "Description", LocalDate.now(), 120);
+        film = new Film(1, "Name", "Description", LocalDate.now(), 120, null, null, null);
     }
 
     @Test
     void shouldValidateCorectFilm() {
-        film = new Film(null, 1, "Name", "Description", LocalDate.now(), 120);
+        film = new Film(1, "Name", "Description", LocalDate.now(), 120, null, null, null);
         assertDoesNotThrow(() -> controller.validate(film));
     }
 

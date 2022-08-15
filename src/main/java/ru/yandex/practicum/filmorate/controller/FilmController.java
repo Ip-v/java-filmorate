@@ -5,7 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.FilmService;
+import ru.yandex.practicum.filmorate.service.GenreService;
+import ru.yandex.practicum.filmorate.service.MpaService;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -16,24 +20,28 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/films")
 public class FilmController implements Controller<Film> {
+
     @Autowired
     private FilmService filmService;
+    @Autowired
+    private GenreService genreService;
+    @Autowired
+    private MpaService mpaService;
 
     /**
      * Получение фильма
      * @param id ид фильма
      * @return объект фильм
      */
-    @GetMapping("{id}")
+    @GetMapping("/films/{id}")
     public Film get(@PathVariable int id) {
         log.info("Получен запрос фильма ИД " + id);
         return filmService.get(id);
     }
 
     @Override
-    @GetMapping
+    @GetMapping("/films")
     public List<Film> getAll() {
         log.info("Получен запрос списка всех фильмов в базе.");
         return filmService.getAll();
@@ -44,14 +52,14 @@ public class FilmController implements Controller<Film> {
      * @param count Кол-во (10 по умолчанию)
      * @return список топ фильмов
      */
-    @GetMapping("/popular")
+    @GetMapping("/films/popular")
     public List<Film> getPopular(@RequestParam(required = false, defaultValue = "10") int count) {
         log.info("Получен запрос топ " + count + " популярных фильмов.");
        return filmService.getPopular(count);
     }
 
     @Override
-    @PostMapping
+    @PostMapping("/films")
     public Film save(@Valid @RequestBody Film film) {
         log.info("Получен запрос сохранения фильма " + film);
         validate(film);
@@ -59,7 +67,7 @@ public class FilmController implements Controller<Film> {
     }
 
     @Override
-    @PutMapping
+    @PutMapping("/films")
     public Film update(@Valid @RequestBody Film film) {
         log.info("Получен запрос обновления фильма " + film);
         validate(film);
@@ -71,7 +79,7 @@ public class FilmController implements Controller<Film> {
      * @param id ид фильма
      * @param userId ид пользователя
      */
-    @PutMapping("/{id}/like/{userId}")
+    @PutMapping("/films/{id}/like/{userId}")
     public void likeFilm(@PathVariable int id, @PathVariable int userId) {
         log.info("Пользователь " + userId + " ставит лайк фильму " + id);
         filmService.likeFilm(id, userId);
@@ -82,10 +90,42 @@ public class FilmController implements Controller<Film> {
      * @param id ид фильма
      * @param userId ид пользователя
      */
-    @DeleteMapping("{id}/like/{userId}")
+    @DeleteMapping("/films/{id}/like/{userId}")
     public void deleteFilmLike(@PathVariable int id, @PathVariable int userId) {
         log.info("Пользователь " + userId + " удаляет лайк фильму " + id);
         filmService.deleteFilmLike(id, userId);
+    }
+
+    /**
+     * Метод возвращает список жанров.
+     */
+    @GetMapping("/genres")
+    public List<Genre> getAllGenres() {
+        return genreService.getAll();
+    }
+
+    /**
+     * Метод возвращает жанр по id.
+     */
+    @GetMapping("/genres/{id}")
+    public Genre getGenreById(@PathVariable int id) {
+        return genreService.getById(id);
+    }
+
+    /**
+     * Метод возвращает список MPA.
+     */
+    @GetMapping("/mpa")
+    public List<Mpa> getAllMpas() {
+        return mpaService.getAll();
+    }
+
+    /**
+     * Метод возвращает MPA по id.
+     */
+    @GetMapping("/mpa/{id}")
+    public Mpa getMpaById(@PathVariable int id) {
+        return mpaService.getById(id);
     }
 
     @Override
